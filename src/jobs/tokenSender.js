@@ -2,6 +2,35 @@ const { ethers } = require('ethers');
 const logger = require('../utils/logger');
 require('dotenv').config();
 
+// === Env Validation & Normalization ===
+let rawPrivateKey = process.env.PRIVATE_KEY;
+
+if (!rawPrivateKey) {
+	throw new Error('❌ PRIVATE_KEY is missing in environment.');
+}
+
+// Normalize to start with 0x
+if (!rawPrivateKey.startsWith('0x')) {
+	rawPrivateKey = '0x' + rawPrivateKey;
+}
+
+if (rawPrivateKey.length !== 66) {
+	throw new Error(
+		'❌ PRIVATE_KEY must be 64 hex characters (32 bytes), optionally prefixed with 0x.'
+	);
+}
+
+if (!process.env.PROVIDER_URL) {
+	throw new Error('❌ PROVIDER_URL is not defined in environment.');
+}
+
+if (
+	!process.env.TOKEN_ADDRESS ||
+	!ethers.isAddress(process.env.TOKEN_ADDRESS)
+) {
+	throw new Error('❌ Invalid or missing TOKEN_ADDRESS in environment.');
+}
+
 const provider = new ethers.JsonRpcProvider(process.env.PROVIDER_URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
