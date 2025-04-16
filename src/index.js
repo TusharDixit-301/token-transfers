@@ -8,7 +8,7 @@ const isCronActive = process.env.IS_CRON_ACTIVE === 'true';
 if (isCronActive) {
 	logger.info('Cron is active. Starting scheduler...');
 
-	cron.schedule('0 * * * *', () => {
+	cron.schedule('*/2 * * * *', () => {
 		logger.info('Starting every hour token transfer job...');
 		sendRandomToken();
 	});
