@@ -25,4 +25,5 @@ export const config = {
   tokenAddress: getEnv('TOKEN_ADDRESS'),
   tokenRangeMin: getEnv('TOKEN_RANGE_MIN', false) || '0.001',
   tokenRangeMax: getEnv('TOKEN_RANGE_MAX', false) || '0.009',
+  dbUrl: getEnv('DB_URL'),
 };
